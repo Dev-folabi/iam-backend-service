@@ -61,7 +61,7 @@ You can run the service in development mode or production mode.
     # or
     yarn dev
     ```
-    The API will be accessible at `http://localhost:3000` (or the port specified in your `.env` file).
+    The API will be accessible at `http://localhost:5000` (or the port specified in your `.env` file).
 
 -   **Production Mode:**
     First, build the project:
