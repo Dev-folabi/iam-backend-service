@@ -48,7 +48,6 @@ router.post(
   "/",
   authMiddleware.authenticate,
   authMiddleware.requireRole("admin"),
-  authMiddleware.requirePermission("user", "create"),
   validateCreateUser,
   userController.createUser
 );
@@ -63,7 +62,6 @@ router.put(
   authMiddleware.authenticate,
   validateUpdateUser,
   authMiddleware.requireOwnershipOrAdmin("id"),
-  authMiddleware.requirePermission("user", "update"),
   userController.updateUser
 );
 
@@ -76,7 +74,6 @@ router.delete(
   "/:id",
   authMiddleware.authenticate,
   authMiddleware.requireRole("admin"),
-  authMiddleware.requirePermission("user", "delete"),
   validateGetUser,
   userController.deleteUser
 );

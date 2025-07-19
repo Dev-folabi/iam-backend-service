@@ -5,7 +5,7 @@ import rateLimit from "express-rate-limit";
 import { config } from "./config";
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
-import  routes  from "./routes/api";
+import routes from "./routes/api";
 
 export const createApp = (): express.Application => {
   const app = express();
@@ -14,10 +14,7 @@ export const createApp = (): express.Application => {
   app.use(helmet());
   app.use(
     cors({
-      origin:
-        config.nodeEnv === "production"
-          ? process.env.ALLOWED_ORIGINS?.split(",")
-          : ["http://localhost:3000", "http://localhost:3001"],
+      origin: "*",
       credentials: true,
     })
   );
@@ -32,7 +29,7 @@ export const createApp = (): express.Application => {
     standardHeaders: true,
     legacyHeaders: false,
   });
-  app.use("/api/", limiter);
+  app.use("/api", limiter);
 
   // Body parsing middleware
   app.use(express.json({ limit: "10mb" }));
@@ -52,7 +49,7 @@ export const createApp = (): express.Application => {
   });
 
   // API routes
-  app.use("/api", routes);
+  app.use("/api/v1", routes);
 
   // 404 handler
   app.use("*", (req, res) => {

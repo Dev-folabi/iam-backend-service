@@ -17,6 +17,15 @@ export const AppDataSource = new DataSource({
   ssl: config.db.useSSL ? { rejectUnauthorized: true } : false,
 });
 
+// export const AppDataSource = new DataSource({
+//   type: "sqlite",
+//   database: config.db.name,
+//   synchronize: false,
+//   logging: config.nodeEnv === "development",
+//   entities: [__dirname + "/../entities/*.{ts,js}"],
+//   migrations: [__dirname + "/migrations/*{.ts,.js}"],
+//   subscribers: [__dirname + "/subscribers/*{.ts,.js}"],
+// });
 export const initializeDatabase = async (): Promise<void> => {
   try {
     if (!AppDataSource.isInitialized) {
