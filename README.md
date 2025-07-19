@@ -43,7 +43,7 @@ Before you begin, ensure you have the following installed:
     Create a `.env` file in the root directory of the project and add the necessary environment variables. You can use `.env.example` as a reference.
 
     ```
-    PORT=3000
+    PORT=5000
     DATABASE_URL="postgresql://user:password@localhost:5432/iam_database"
     JWT_SECRET="your_jwt_secret_key"
     JWT_REFRESH_SECRET="your_jwt_refresh_secret_key"
