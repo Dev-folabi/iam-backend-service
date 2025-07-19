@@ -49,6 +49,11 @@ Before you begin, ensure you have the following installed:
     JWT_REFRESH_SECRET="your_jwt_refresh_secret_key"
     ACCESS_TOKEN_EXPIRATION="1h"
     REFRESH_TOKEN_EXPIRATION="7d"
+    BCRYPT_ROUNDS=BCRYPT_ROUNDS
+    RATE_LIMIT_WINDOW_MS=900000
+    RATE_LIMIT_MAX_REQUESTS=100
+    LOG_LEVEL=info
+    LOG_FORMAT=combined
     ```
 
 ### Running the Service
