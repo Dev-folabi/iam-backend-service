@@ -2,13 +2,21 @@ import express from "express";
 import cors from "cors";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import { DataSource } from "typeorm";
 import { config } from "./config";
 import { errorHandler } from "./middleware/errorHandler";
 import { requestLogger } from "./middleware/requestLogger";
 import routes from "./routes/api";
 
-export const createApp = (): express.Application => {
+export const createApp = (dataSource: DataSource): express.Application => {
   const app = express();
+
+  // Initialize DataSource if not already initialized
+  if (!dataSource.isInitialized) {
+    dataSource.initialize().catch((err) =>
+      console.error("App DataSource init failed:", err)
+    );
+  }
 
   // Security middleware
   app.use(helmet());
@@ -45,6 +53,8 @@ export const createApp = (): express.Application => {
       message: "healthy",
       timestamp: new Date().toISOString(),
       environment: config.nodeEnv,
+      // Optionally add DataSource status
+      databaseConnected: dataSource.isInitialized,
     });
   });
 

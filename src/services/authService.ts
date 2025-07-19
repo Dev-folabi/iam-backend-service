@@ -1,8 +1,8 @@
 import { In, Repository } from "typeorm";
+import { DataSource } from "typeorm"; // Import DataSource
 import { User } from "../entities/User";
 import { Role } from "../entities/Role";
 import { RefreshToken } from "../entities/RefreshToken";
-import { AppDataSource } from "../config/database";
 import { PasswordUtils } from "../utils/password";
 import { JwtUtils } from "../utils/jwt";
 import { logger } from "../utils/logger";
@@ -21,10 +21,10 @@ export class AuthService {
   private roleRepository: Repository<Role>;
   private refreshTokenRepository: Repository<RefreshToken>;
 
-  constructor() {
-    this.userRepository = AppDataSource.getRepository(User);
-    this.roleRepository = AppDataSource.getRepository(Role);
-    this.refreshTokenRepository = AppDataSource.getRepository(RefreshToken);
+  constructor(dataSource: DataSource) {
+    this.userRepository = dataSource.getRepository(User);
+    this.roleRepository = dataSource.getRepository(Role);
+    this.refreshTokenRepository = dataSource.getRepository(RefreshToken);
   }
 
   /**

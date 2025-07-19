@@ -6,12 +6,13 @@ import {
   UpdateUserDto,
   PaginationQuery,
 } from "../types/interfaces";
+import AppDataSource from "../config/database";
 
 export class UserController {
   private userService: UserService;
 
   constructor() {
-    this.userService = new UserService();
+    this.userService = new UserService(AppDataSource);
   }
 
   /**

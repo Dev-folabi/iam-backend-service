@@ -3,12 +3,13 @@ import { AuthService } from "../services/authService";
 import { createError } from "../middleware/errorHandler";
 import { logger } from "../utils/logger";
 import { LoginDto, CreateUserDto } from "../types/interfaces";
+import AppDataSource from "../config/database";
 
 export class AuthController {
   private authService: AuthService;
 
   constructor() {
-    this.authService = new AuthService();
+    this.authService = new AuthService(AppDataSource);
   }
 
   /**

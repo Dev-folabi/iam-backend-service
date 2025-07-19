@@ -4,6 +4,7 @@ import { AuthService } from "../services/authService";
 import { createError } from "./errorHandler";
 import { logger } from "../utils/logger";
 import { JwtPayload } from "../types/interfaces";
+import AppDataSource from "../config/database";
 
 // Extend Request interface to include user
 declare global {
@@ -18,7 +19,7 @@ export class AuthMiddleware {
   private authService: AuthService;
 
   constructor() {
-    this.authService = new AuthService();
+    this.authService = new AuthService(AppDataSource);
   }
 
   /**

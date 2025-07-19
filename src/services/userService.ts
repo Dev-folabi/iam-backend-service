@@ -1,7 +1,7 @@
 import { In, Repository } from "typeorm";
+import { DataSource } from "typeorm";
 import { User } from "../entities/User";
 import { Role } from "../entities/Role";
-import { AppDataSource } from "../config/database";
 import { PasswordUtils } from "../utils/password";
 import { logger } from "../utils/logger";
 import { createError } from "../middleware/errorHandler";
@@ -18,9 +18,9 @@ export class UserService {
   private userRepository: Repository<User>;
   private roleRepository: Repository<Role>;
 
-  constructor() {
-    this.userRepository = AppDataSource.getRepository(User);
-    this.roleRepository = AppDataSource.getRepository(Role);
+  constructor(dataSource: DataSource) {
+    this.userRepository = dataSource.getRepository(User);
+    this.roleRepository = dataSource.getRepository(Role);
   }
 
   /**

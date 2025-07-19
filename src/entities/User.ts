@@ -27,7 +27,7 @@ export class User {
   passwordHash: string;
 
   @Column({
-    type: "enum",
+    type: process.env.NODE_ENV === "test" ? "simple-enum" : "enum",
     enum: UserStatus,
     default: UserStatus.PENDING,
   })

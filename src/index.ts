@@ -9,7 +9,7 @@ const startServer = async (): Promise<void> => {
     await initializeDatabase();
 
     // Create Express app
-    const app = createApp();
+    const app = createApp(AppDataSource);
 
     // Start server
     const server = app.listen(config.port, () => {

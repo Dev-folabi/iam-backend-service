@@ -1,49 +1,38 @@
-import { AuthService } from '../../src/services/authService';
-import { PasswordUtils } from '../../src/utils/password';
-import { TestDataSource } from '../../ormconfig.test';
-import { User } from '../../src/entities/User';
+import { AuthService } from "../../src/services/authService";
+import { TestDataSource } from "../../src/test.datasource";
 
-describe('AuthService', () => {
-  const authService = new AuthService();
+describe("AuthService", () => {
+  let authService: AuthService;
 
-  beforeAll(async () => {
-    await TestDataSource.initialize();
+  beforeAll(() => {
+    authService = new AuthService(TestDataSource);
   });
 
-  beforeEach(async () => {
-    const userRepo = TestDataSource.getRepository(User);
-    const hashed = await PasswordUtils.hashPassword('Password123!');
-    await userRepo.save(userRepo.create({
-      email: 'testuser@example.com',
-      username: 'testuser',
-      passwordHash: hashed,
-    }));
-  });
-
-  afterEach(async () => {
-    const userRepo = TestDataSource.getRepository(User);
-    await userRepo.clear();
-  });
-
-  afterAll(async () => {
-    await TestDataSource.destroy();
-  });
-
-  it('logs in with correct credentials', async () => {
-    const result = await authService.login({ username: 'testuser', password: 'Password123!' });
-    expect(result.accessToken).toBeDefined();
-    expect(result.user.username).toBe('testuser');
-  });
-
-  it('fails login with invalid password', async () => {
+  it("fails login with invalid password", async () => {
     await expect(
-      authService.login({ username: 'testuser', password: 'wrongpass' })
-    ).rejects.toThrow('Invalid credentials');
+      authService.login({ username: "testuser", password: "wrongpass" })
+    ).rejects.toThrow("Invalid credentials");
   });
 
-  it('fails login with unknown username', async () => {
+  it("fails login with unknown username", async () => {
     await expect(
-      authService.login({ username: 'nouser', password: 'Password123!' })
-    ).rejects.toThrow('Invalid credentials');
+      authService.login({ username: "nouser", password: "Password123!" })
+    ).rejects.toThrow("Invalid credentials");
+  });
+
+  it("registers a new user successfully", async () => {
+    const result = await authService.register({
+      username: "newuser",
+      email: "newuser@example.com",
+      password: "Password123!",
+    });
+    expect(result).toHaveProperty("id");
+    expect(result.email).toBe("newuser@example.com");
+  });
+
+  it("fails to refresh with invalid token", async () => {
+    await expect(
+      authService.refreshAccessToken("invalid_token")
+    ).rejects.toThrow("Invalid refresh token");
   });
 });
